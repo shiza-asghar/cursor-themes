@@ -1,4 +1,6 @@
-# Runegrove
+<p align="center">
+  <img src="media/runegrove-logo.png" alt="Runegrove — Fantasy Theme for Cursor" width="580" />
+</p>
 
 **A little magic in your workspace.** A fantasy woodland theme for Cursor, inspired by the supplied visual product specification and renamed throughout.
 
