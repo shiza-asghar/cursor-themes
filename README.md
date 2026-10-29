@@ -6,6 +6,30 @@
 
 Runegrove keeps the real editor at the center: language tooling, Agent, diffs, authentication, and shortcuts remain native. An optional village turns your actual folders into small woodland buildings.
 
+## Preview the theme
+
+### Nightfall
+
+A woodland dark palette with warm gold accents, sage strings, and soft violet keywords.
+
+![Runegrove Nightfall palette preview showing sample TypeScript and file icons](docs/screenshots/nightfall.png)
+
+### Parchment
+
+A warm light palette with dark ink, moss-green strings, and restrained purple keywords.
+
+![Runegrove Parchment palette preview showing sample TypeScript and file icons](docs/screenshots/parchment.png)
+
+The editor images above are rendered palette previews using the shipped theme colors and file icons, with sample code and an illustrative editor layout. They are not screenshots taken inside Cursor; native appearance may vary with your Cursor version and settings.
+
+### Optional village view
+
+Explore workspace folders as woodland buildings, browse files in the parchment archive, and open familiar native tools from the village square.
+
+![Runegrove village webview showing folder buildings, a file archive, and native tool shortcuts](docs/screenshots/village.png)
+
+This is a browser capture of the implemented village webview with a repository directory snapshot supplied by a test bridge. The village is an optional extension tab; it does not replace Cursor's editor. Advanced interactions listed below remain outside this prototype.
+
 ## Install in Cursor
 
 1. Download or build `dist/runegrove-0.1.0.vsix`.
