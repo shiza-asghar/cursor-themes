@@ -1,6 +1,6 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name": "Runegrove Parchment",
+  "name": "Codehaven Parchment",
   "type": "light",
   "semanticHighlighting": true,
   "colors": {

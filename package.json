@@ -1,8 +1,8 @@
 {
   "name": "runegrove",
-  "displayName": "Runegrove \u2014 Fantasy Theme for Cursor",
-  "description": "A quiet woodland editor theme, parchment file icons, and an optional living workspace village.",
-  "version": "0.4.0",
+  "displayName": "Codehaven \u2014 Fantasy Coding Village",
+  "description": "A painterly fantasy coding village, guild workshop, editor themes, and parchment file icons for Cursor.",
+  "version": "0.5.0",
   "publisher": "runegrove",
   "license": "MIT",
   "engines": {
@@ -37,23 +37,23 @@
     "commands": [
       {
         "command": "runegrove.openVillage",
-        "title": "Runegrove: Open Village",
+        "title": "Codehaven: Open Village Map",
         "icon": "$(home)"
       },
       {
         "command": "runegrove.openWorkshop",
-        "title": "Runegrove: Open Guild Workshop",
+        "title": "Codehaven: Open Guild Workshop",
         "icon": "$(book)"
       }
     ],
     "themes": [
       {
-        "label": "Runegrove Nightfall",
+        "label": "Codehaven Nightfall",
         "uiTheme": "vs-dark",
         "path": "./themes/nightfall.json"
       },
       {
-        "label": "Runegrove Parchment",
+        "label": "Codehaven Parchment",
         "uiTheme": "vs",
         "path": "./themes/parchment.json"
       }
@@ -61,12 +61,12 @@
     "iconThemes": [
       {
         "id": "runegrove-icons",
-        "label": "Runegrove File Icons",
+        "label": "Codehaven File Icons",
         "path": "./icons/file-icons.json"
       }
     ],
     "configuration": {
-      "title": "Runegrove",
+      "title": "Codehaven",
       "properties": {
         "runegrove.reduceMotion": {
           "type": "boolean",
@@ -78,7 +78,7 @@
     "customEditors": [
       {
         "viewType": "runegrove.workshop",
-        "displayName": "Runegrove Guild Workshop",
+        "displayName": "Codehaven Guild Workshop",
         "selector": [
           {
             "filenamePattern": "*"

@@ -1,4 +1,4 @@
-Runegrove Workshop editor — third-party notices
+Codehaven Workshop editor — third-party notices
 CodeMirror and Lezer packages are distributed under the MIT license.
 
 

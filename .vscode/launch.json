@@ -1,1 +1,1 @@
-{"version":"0.2.0","configurations":[{"name":"Run Runegrove","type":"extensionHost","request":"launch","args":["--extensionDevelopmentPath=${workspaceFolder}"],"outFiles":[]}]}
+{"version":"0.2.0","configurations":[{"name":"Run Codehaven","type":"extensionHost","request":"launch","args":["--extensionDevelopmentPath=${workspaceFolder}"],"outFiles":[]}]}
