@@ -24,7 +24,7 @@ The editor images above are rendered palette previews using the shipped theme co
 
 ### Optional village view
 
-A richly illustrated twilight village with timber cottages, stone courtyards, glowing lanterns, parchment, and brass-trimmed controls. Explore real workspace folders as buildings, browse files in the archive, and open familiar native tools from the village square.
+A richly illustrated twilight village with timber cottages, stone courtyards, glowing lanterns, parchment, and brass-trimmed controls. The parchment archive, folder signs, pinned-file worktable, and floating tool menus all live inside one continuous village scene. Expand folder rows directly in the scroll, use the Project dropdown to switch workspace roots, and open a guild tool’s dropdown for its native action.
 
 The detailed fantasy artwork lives in this optional village tab. The native Cursor editor uses the Nightfall or Parchment color theme above; a standard theme cannot replace Cursor’s native workbench with a full illustrated RPG shell.
 
@@ -34,7 +34,7 @@ This is a browser capture of the implemented village webview with a repository d
 
 ## Install in Cursor
 
-1. Download or build `dist/runegrove-0.2.0.vsix`.
+1. Download or build `dist/runegrove-0.3.0.vsix`.
 2. In Cursor, run **Extensions: Install from VSIX…** from the command palette and select that file.
 3. Run **Preferences: Color Theme** and choose **Runegrove Nightfall** or **Runegrove Parchment**.
 4. Run **Preferences: File Icon Theme** and choose **Runegrove File Icons**.
@@ -46,7 +46,7 @@ The VSIX is a local development package, not a published Marketplace release. Th
 
 - Dark woodland and light parchment themes, syntax colors, terminal palette, and accessible native red/green diff colors.
 - Original SVG file and folder icons.
-- An optional village tab with real workspace-provider directory listings, multi-root selection, folder buildings, parent navigation, file filtering, native file opening, and session-scoped file pins.
+- An optional village tab with real workspace-provider directory listings, multi-root selection, folder district signs, a lazy expandable folder tree, parent navigation, file filtering, native file opening, and session-scoped file pins.
 - A folding parchment archive: both rollers move toward the center together; rapid toggles reverse the height transition. Selection and the file list are not rebuilt by folding.
 - Native Source Control, terminal, extension catalog, search, settings, Explorer, and command palette handoffs, enabled only when the command exists in the host.
 - Watcher-based refresh, errors reported in place, keyboard controls, visible focus, responsive layout, and reduced motion (`runegrove.reduceMotion` or OS preference).

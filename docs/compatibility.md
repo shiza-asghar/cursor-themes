@@ -1,6 +1,6 @@
 # Compatibility and acceptance evidence
 
-Version 0.2.0 is a development prototype, not production readiness certification.
+Version 0.3.0 is a development prototype, not production readiness certification.
 
 ## Host support
 
@@ -10,7 +10,7 @@ At runtime the extension enumerates native command IDs before enabling its hando
 
 ## Automated checks
 
-`npm test` exercises theme/icon assets, bridge validation and escaping, a mocked VS Code host with real extension activation code, provider directory listing/navigation, pin toggling, forged URI rejection, command allowlisting, CSP, and provider failures. These tests do not establish desktop compatibility.
+`npm test` exercises theme/icon assets, bridge validation and escaping, a mocked VS Code host with real extension activation code, provider directory listing/navigation, lazy nested tree expansion, stale child-reference rejection, pin toggling, forged URI rejection, command allowlisting, CSP, and provider failures. These tests do not establish desktop compatibility.
 
 `npm run check` checks JavaScript syntax. `npm run package` builds and CRC-checks a dependency-free VSIX. Desktop installation of that artifact remains a manual gate.
 
@@ -31,6 +31,6 @@ The PDF's AT01, AT02, AT13–AT16 are only partially covered by this prototype a
 
 ## Assets
 
-SVG file icons and the raster extension icon were created for this project. The Runegrove logo, `media/village-scene.png`, and transparent `media/guild-house.png` were generated for this project with OpenAI image generation. The environment and cottage are separate assets; real DOM buttons and host-supplied labels sit above them. Background scenery is decorative and is not an interactive filesystem object. Color variations reuse the cottage sprite; unique art per building and character portraits remain future work.
+SVG file icons and the raster extension icon were created for this project. The Runegrove logo, `media/village-scene.png`,  were generated for this project with OpenAI image generation. The environment is a single continuous scene; the scroll, folder signs, inventory and dropdown menus are real DOM controls above it. Background scenery is decorative and is not an interactive filesystem object. Folder signs represent real directories; painted buildings in the scenery do not move with directory changes. Character portraits remain future work.
 
 No PDF concept-board images, external fonts, or image-baked text are shipped as operational UI. The optional village now follows the atlas’s detailed painterly fantasy direction; the native editor remains a color/icon theme. The repository license applies to this distribution; no third-party atlas artwork was copied into the extension.

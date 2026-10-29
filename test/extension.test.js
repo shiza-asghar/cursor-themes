@@ -45,3 +45,17 @@ test('village lists actual provider files, navigates, pins, and refuses forged p
 test('filesystem read failures surface as errors instead of reporting success',async()=>{
  const h=harness();h.contents(null);await h.receive({type:'ready'});assert.equal(h.messages.at(-1).type,'error');h.dispose();
 });
+test('lazy tree expansion uses provider entries and rejects unknown directory URIs',async()=>{
+ const h=harness();await h.receive({type:'ready'});
+ const before=h.messages.length;
+ await h.receive({type:'expand',id:'file:///etc'});assert.equal(h.messages.length,before);
+ h.contents([['nested',2],['leaf.ts',1]]);
+ await h.receive({type:'expand',id:'file:///project/src'});
+ const children=h.messages.at(-1);assert.equal(children.type,'children');assert.equal(children.id,'file:///project/src');
+ assert.deepEqual(Array.from(children.items,x=>x.id),['file:///project/src/nested','file:///project/src/leaf.ts']);
+ await h.receive({type:'open',id:'file:///project/src/leaf.ts'});assert.equal(h.calls.at(-1)[1].toString(),'file:///project/src/leaf.ts');
+ await h.receive({type:'expand',id:'file:///project/src/nested'});assert.equal(h.messages.at(-1).type,'children');
+ await h.receive({type:'refresh'});const calls=h.calls.length;
+ await h.receive({type:'open',id:'file:///project/src/leaf.ts'});assert.equal(h.calls.length,calls);
+ h.dispose();
+});

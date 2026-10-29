@@ -2,6 +2,9 @@
 const api = acquireVsCodeApi();
 const $ = id => document.getElementById(id);
 let state;
+let children = new Map();
+let pending = new Set();
+const expanded = new Set();
 let saved = api.getState() || {};
 let folded = !!saved.folded;
 const send = (type,id) => api.postMessage({type,id});
@@ -13,14 +16,28 @@ function render() {
   const query=$('search').value.toLocaleLowerCase();
   const items=state.items.filter(item=>item.name.toLocaleLowerCase().includes(query));
   $('files').replaceChildren();
-  for(const item of items) {
-    const row=element('div','file-row');
-    const open=button('',()=>send(item.folder?'folder':'open',item.id),'file-open');
-    open.append(element('span',item.folder?'file-icon folder-icon':'file-icon',item.folder?'▱':'▤'),element('span','filename',item.name));open.title=item.id;
-    row.append(open);
-    if(!item.folder) {const pinned=state.pins.some(p=>p.id===item.id);const pin=button(pinned?'◆':'◇',()=>send('pin',item.id),'pin');pin.setAttribute('aria-label',`${pinned?'Unpin':'Pin'} ${item.name}`);pin.setAttribute('aria-pressed',String(pinned));row.append(pin);}
-    $('files').append(row);
+  function renderRows(rows, depth=0, target=$('files')) {
+    for(const item of rows) {
+      const row=element('div','file-row');row.style.paddingLeft=(depth*13)+'px';
+      const toggle=()=>{if(expanded.has(item.id))expanded.delete(item.id);else expanded.add(item.id);render();};
+      const open=button('',item.folder?toggle:()=>send('open',item.id),'file-open');
+      if(item.folder) {open.setAttribute('aria-expanded',String(expanded.has(item.id)));open.setAttribute('aria-label',`Toggle folder ${item.name}`);}
+      open.append(element('span','chevron',item.folder?(expanded.has(item.id)?'⌄':'›'):''),element('span',item.folder?'file-icon folder-icon':'file-icon',item.folder?'▰':'▤'),element('span','filename',item.name));open.title=item.id;
+      row.append(open);
+      if(!item.folder) {const pinned=state.pins.some(p=>p.id===item.id);const pin=button(pinned?'◆':'◇',()=>send('pin',item.id),'pin');pin.setAttribute('aria-label',`${pinned?'Unpin':'Pin'} ${item.name}`);pin.setAttribute('aria-pressed',String(pinned));row.append(pin);}
+      target.append(row);
+      if(item.folder && expanded.has(item.id)) {
+        if(children.has(item.id)) {
+          const nested=children.get(item.id);renderRows(nested,depth+1,target);
+          if(!nested.length)target.append(element('p','empty-folder','Empty folder'));
+        } else {
+          const loading=element('p','empty-folder','Opening…');target.append(loading);
+          if(!pending.has(item.id)){pending.add(item.id);send('expand',item.id);}
+        }
+      }
+    }
   }
+  renderRows(items);
   if(!items.length) $('files').append(element('p','empty',state.root?(query?'No matching files.':'This folder is waiting for its first story.'):'Open a workspace folder to bring your village to life.'));
   $('buildings').replaceChildren();
   const folders=items.filter(item=>item.folder);
@@ -45,9 +62,11 @@ function render() {
 }
 window.addEventListener('message',event=>{
   const data=event.data;
-  if(data.type==='error') {notice(data.message);return;}
+  if(data.type==='error') {pending.clear();notice(data.message);return;}
+  if(data.type==='children') {pending.delete(data.id);children.set(data.id,data.items);render();return;}
   if(data.type!=='state')return;
-  if(state?.root!==data.root || state?.path!==data.path) $('search').value='';
+  if(state?.root!==data.root || state?.path!==data.path) { $('search').value=''; expanded.clear(); }
+  children.clear();pending.clear();
   state=data;
   $('project').textContent=data.project;
   $('path').textContent=data.path || data.project;
@@ -68,4 +87,6 @@ $('parent').addEventListener('click',()=>send('parent'));
 $('refresh').addEventListener('click',()=>send('refresh'));
 function fold() { $('scroll').classList.toggle('folded',folded);$('fold').setAttribute('aria-expanded',String(!folded));$('fold').textContent=folded?'Unroll ⌄':'Roll up ⌃';$('scroll').inert=folded; }
 $('fold').addEventListener('click',()=>{folded=!folded;saved={...saved,folded};api.setState(saved);fold();});
+document.querySelectorAll('.guild-tool').forEach(details=>details.addEventListener('toggle',()=>{if(details.open)document.querySelectorAll('.guild-tool').forEach(other=>{if(other!==details)other.open=false;});}));
+document.addEventListener('keydown',event=>{if(event.key==='Escape'){document.querySelectorAll('details[open]').forEach(details=>{details.open=false;details.querySelector('summary').focus();});}});
 fold();send('ready');
