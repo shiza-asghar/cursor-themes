@@ -1,5 +1,6 @@
 'use strict';
 const api = acquireVsCodeApi();
+window.runegroveApi = api;
 const $ = id => document.getElementById(id);
 let state;
 let children = new Map();

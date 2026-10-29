@@ -21,7 +21,7 @@ function harness(){
  const noop={dispose(){}};const event=()=>noop;
  const webview={cspSource:'https://local.test',asWebviewUri:u=>u,onDidReceiveMessage(fn){receive=fn;return noop;},postMessage(data){messages.push(data);}};
  const panel={webview,onDidDispose(fn){dispose=fn;},reveal(){}};
- const vscode={Uri:{joinPath:(u,...parts)=>uri(path.posix.join(u.path,...parts))},ViewColumn:{Active:1},FileType:{Directory:2},env:{remoteName:undefined},window:{createWebviewPanel:()=>panel},commands:{registerCommand(id,fn){command=fn;return noop;},async getCommands(){return Object.values(tools);},async executeCommand(...args){calls.push(args);}},workspace:{workspaceFolders:[{name:'real-project',uri:uri('/project')}],fs:{async readDirectory(){return contents;}},asRelativePath:u=>path.posix.relative('/project',u.path),isTrusted:true,getConfiguration:()=>({get:()=>false}),createFileSystemWatcher:()=>({...noop,onDidCreate:event,onDidDelete:event,onDidChange:event}),onDidChangeWorkspaceFolders:event}};
+ const vscode={Uri:{joinPath:(u,...parts)=>uri(path.posix.join(u.path,...parts))},ViewColumn:{Active:1},FileType:{Directory:2},env:{remoteName:undefined},window:{createWebviewPanel:()=>panel,registerCustomEditorProvider:()=>noop},commands:{registerCommand(id,fn){if(id==='runegrove.openVillage')command=fn;return noop;},async getCommands(){return Object.values(tools);},async executeCommand(...args){calls.push(args);}},workspace:{workspaceFolders:[{name:'real-project',uri:uri('/project')}],fs:{async readDirectory(){return contents;}},asRelativePath:u=>path.posix.relative('/project',u.path),isTrusted:true,getConfiguration:()=>({get:()=>false}),createFileSystemWatcher:()=>({...noop,onDidCreate:event,onDidDelete:event,onDidChange:event}),onDidChangeWorkspaceFolders:event}};
  const module={exports:{}};
  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../src/extension.js'),'utf8'),{require:name=>name==='vscode'?vscode:require('../src/domain'),module,setTimeout,clearTimeout});
  module.exports.activate({subscriptions:[],extensionUri:uri('/extension')});command();
@@ -58,4 +58,26 @@ test('lazy tree expansion uses provider entries and rejects unknown directory UR
  await h.receive({type:'refresh'});const calls=h.calls.length;
  await h.receive({type:'open',id:'file:///project/src/leaf.ts'});assert.equal(h.calls.length,calls);
  h.dispose();
+});
+function documentHarness(){
+ let receive,changed,saved;const messages=[];const calls=[];let text='const value = 1;';
+ const noop={dispose(){}};const doc={uri:{path:'/project/value.ts',toString:()=> 'file:///project/value.ts'},version:1,lineCount:1,isDirty:false,languageId:'typescript',getText:()=>text,async save(){this.isDirty=false;return true;}};
+ class Edit{replace(uri,range,value){this.value=value;}}
+ const workspace={isTrusted:true,onDidChangeTextDocument(fn){changed=fn;return noop;},onDidSaveTextDocument(fn){saved=fn;return noop;},async applyEdit(edit){text=edit.value;doc.version++;doc.isDirty=true;changed({document:doc});return true;}};
+ const vscode={workspace,WorkspaceEdit:Edit,Range:class{},commands:{executeCommand(...args){calls.push(args);}},window:{async showWarningMessage(){return 'Reload';}}};
+ const view={webview:{postMessage:m=>messages.push(m),onDidReceiveMessage(fn){receive=fn;return noop;}}};
+ const connection=require('../src/workshop').connectDocument(vscode,view,doc);
+ return {doc,workspace,messages,calls,connection,async send(message){receive(message);await new Promise(resolve=>setImmediate(resolve));}};
+}
+test('Workshop edits host document, preserves stale buffer, saves, and opens native editor',async()=>{
+ const h=documentHarness();await h.send({type:'editorReady'});assert.equal(h.messages.at(-1).text,'const value = 1;');
+ await h.send({type:'edit',version:1,text:'const value = 2;',requestId:'1'});assert.equal(h.doc.getText(),'const value = 2;');assert.equal(h.messages.at(-1).ack,'1');assert.equal(h.doc.isDirty,true);
+ await h.send({type:'edit',version:1,text:'stale text',requestId:'2'});assert.equal(h.messages.at(-1).type,'editRejected');assert.equal(h.doc.getText(),'const value = 2;');
+ await h.send({type:'saveDocument'});assert.equal(h.doc.isDirty,false);assert.equal(h.messages.at(-1).type,'documentSaved');
+ await h.send({type:'nativeDocument'});assert.deepEqual(h.calls.at(-1),['vscode.openWith',h.doc.uri,'default']);
+ await h.send({type:'reloadDocument'});assert.equal(h.messages.at(-1).force,true);h.connection.dispose();
+});
+test('Workshop rejects edits in Restricted Mode and malformed text requests',async()=>{
+ const h=documentHarness();h.workspace.isTrusted=false;await h.send({type:'edit',version:1,text:'blocked',requestId:'1'});assert.equal(h.doc.version,1);assert.equal(h.messages.at(-1).type,'editRejected');
+ h.workspace.isTrusted=true;await h.send({type:'edit',version:1,text:{bad:true},requestId:'2'});assert.equal(h.doc.version,1);assert.equal(h.messages.at(-1).type,'editRejected');h.connection.dispose();
 });

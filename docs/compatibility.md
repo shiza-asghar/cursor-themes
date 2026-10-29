@@ -1,6 +1,14 @@
 # Compatibility and acceptance evidence
 
-Version 0.3.0 is a development prototype, not production readiness certification.
+Version 0.4.0 is a development prototype, not production readiness certification.
+
+## Guild Workshop
+
+The Workshop is an opt-in `CustomTextEditorProvider`, not a native workbench reskin. It edits the authoritative host TextDocument with version checks, propagates dirty state, and saves through the document API. Its bundled CodeMirror editor supports basic syntax highlighting for JS/TS, JSON, HTML, CSS, Markdown and Python; other languages receive plain-text editing. Cursor Agent, IntelliSense, native diagnostics, debugger integration, native diff/merge and advanced keybindings remain available through the Native editor handoff. Full-buffer synchronization is capped at two million characters.
+
+Workshop tests exercise accepted edits, stale-version rejection, save, native handoff, explicit reload and Restricted Mode. Chromium harness checks exercise rendering, typing/ack, Save shortcut, the interior asset, absence of village buildings, and a narrow viewport. These use stand-in host bridges and do not prove Cursor integration. Multi-editor races, large-file performance, native undo parity, actual provider Save failures, remote editing and desktop host QA remain release gates.
+
+`media/workshop-scene.png` and `media/guild-mage.png` are generated interior and portrait assets. CodeMirror/Lezer MIT notices are in `media/THIRD_PARTY_NOTICES.txt`. No skill installer or simulated successful installation is added.
 
 ## Host support
 
@@ -31,6 +39,6 @@ The PDF's AT01, AT02, AT13–AT16 are only partially covered by this prototype a
 
 ## Assets
 
-SVG file icons and the raster extension icon were created for this project. The Runegrove logo, `media/village-scene.png`,  were generated for this project with OpenAI image generation. The environment is a single continuous scene; the scroll, folder signs, inventory and dropdown menus are real DOM controls above it. Background scenery is decorative and is not an interactive filesystem object. Folder signs represent real directories; painted buildings in the scenery do not move with directory changes. Character portraits remain future work.
+SVG file icons and the raster extension icon were created for this project. The Runegrove logo, `media/village-scene.png`, `media/workshop-scene.png`, and `media/guild-mage.png` were generated for this project with OpenAI image generation. The environment is a single continuous scene; the scroll, folder signs, inventory and dropdown menus are real DOM controls above it. Background scenery is decorative and is not an interactive filesystem object. Folder signs represent real directories; painted buildings in the scenery do not move with directory changes. Workshop includes a Mage portrait; additional distinct guild characters remain future work.
 
 No PDF concept-board images, external fonts, or image-baked text are shipped as operational UI. The optional village now follows the atlas’s detailed painterly fantasy direction; the native editor remains a color/icon theme. The repository license applies to this distribution; no third-party atlas artwork was copied into the extension.
