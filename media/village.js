@@ -28,7 +28,6 @@ function render() {
     const node=button('',()=>send('folder',item.id),'building style-'+index%3);
     node.title=item.id;
     const art=element('div','house');art.setAttribute('aria-hidden','true');
-    art.innerHTML='<div class="chimney"></div><div class="roof"></div><div class="house-body"><div class="window left"></div><div class="door"></div><div class="window right"></div><div class="house-rune">◇</div></div><div class="house-step"></div><div class="shrub one"></div><div class="shrub two"></div>';
     node.append(art,element('span','building-name',item.name),element('span','building-kind','EXPLORE FOLDER  →'));
     $('buildings').append(node);
   }

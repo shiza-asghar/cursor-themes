@@ -1,6 +1,6 @@
 # Compatibility and acceptance evidence
 
-Version 0.1.0 is a development prototype, not production readiness certification.
+Version 0.2.0 is a development prototype, not production readiness certification.
 
 ## Host support
 
@@ -31,4 +31,6 @@ The PDF's AT01, AT02, AT13–AT16 are only partially covered by this prototype a
 
 ## Assets
 
-All shipped SVGs, CSS building art, and the PNG icon were created for this project and are covered by the repository's MIT license. No embedded PDF concept-board artwork, external fonts, or generated screenshot text is shipped. The village uses original lightweight CSS illustrations rather than a photorealistic replacement shell.
+SVG file icons and the raster extension icon were created for this project. The Runegrove logo, `media/village-scene.png`, and transparent `media/guild-house.png` were generated for this project with OpenAI image generation. The environment and cottage are separate assets; real DOM buttons and host-supplied labels sit above them. Background scenery is decorative and is not an interactive filesystem object. Color variations reuse the cottage sprite; unique art per building and character portraits remain future work.
+
+No PDF concept-board images, external fonts, or image-baked text are shipped as operational UI. The optional village now follows the atlas’s detailed painterly fantasy direction; the native editor remains a color/icon theme. The repository license applies to this distribution; no third-party atlas artwork was copied into the extension.

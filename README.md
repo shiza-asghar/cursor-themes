@@ -24,7 +24,9 @@ The editor images above are rendered palette previews using the shipped theme co
 
 ### Optional village view
 
-Explore workspace folders as woodland buildings, browse files in the parchment archive, and open familiar native tools from the village square.
+A richly illustrated twilight village with timber cottages, stone courtyards, glowing lanterns, parchment, and brass-trimmed controls. Explore real workspace folders as buildings, browse files in the archive, and open familiar native tools from the village square.
+
+The detailed fantasy artwork lives in this optional village tab. The native Cursor editor uses the Nightfall or Parchment color theme above; a standard theme cannot replace Cursor’s native workbench with a full illustrated RPG shell.
 
 ![Runegrove village webview showing folder buildings, a file archive, and native tool shortcuts](docs/screenshots/village.png)
 
@@ -32,7 +34,7 @@ This is a browser capture of the implemented village webview with a repository d
 
 ## Install in Cursor
 
-1. Download or build `dist/runegrove-0.1.0.vsix`.
+1. Download or build `dist/runegrove-0.2.0.vsix`.
 2. In Cursor, run **Extensions: Install from VSIX…** from the command palette and select that file.
 3. Run **Preferences: Color Theme** and choose **Runegrove Nightfall** or **Runegrove Parchment**.
 4. Run **Preferences: File Icon Theme** and choose **Runegrove File Icons**.
