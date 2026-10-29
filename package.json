@@ -1,0 +1,78 @@
+{
+  "name": "runegrove",
+  "displayName": "Runegrove \u2014 Fantasy Theme for Cursor",
+  "description": "A quiet woodland editor theme, parchment file icons, and an optional living workspace village.",
+  "version": "0.1.0",
+  "publisher": "runegrove",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "keywords": [
+    "cursor",
+    "fantasy",
+    "woodland",
+    "parchment",
+    "theme"
+  ],
+  "main": "./src/extension.js",
+  "icon": "media/icon.png",
+  "activationEvents": [
+    "onCommand:runegrove.openVillage"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": true
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "runegrove.openVillage",
+        "title": "Runegrove: Open Village",
+        "icon": "$(home)"
+      }
+    ],
+    "themes": [
+      {
+        "label": "Runegrove Nightfall",
+        "uiTheme": "vs-dark",
+        "path": "./themes/nightfall.json"
+      },
+      {
+        "label": "Runegrove Parchment",
+        "uiTheme": "vs",
+        "path": "./themes/parchment.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "runegrove-icons",
+        "label": "Runegrove File Icons",
+        "path": "./icons/file-icons.json"
+      }
+    ],
+    "configuration": {
+      "title": "Runegrove",
+      "properties": {
+        "runegrove.reduceMotion": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable village transitions, in addition to your operating system preference."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node test/extension.test.js",
+    "check": "node --check src/extension.js && node --check media/village.js",
+    "package": "python3 scripts/package.py"
+  }
+}

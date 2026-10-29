@@ -1,0 +1,55 @@
+{
+  "iconDefinitions": {
+    "file": {
+      "iconPath": "file.svg"
+    },
+    "folder": {
+      "iconPath": "folder.svg"
+    },
+    "code": {
+      "iconPath": "code.svg"
+    },
+    "image": {
+      "iconPath": "image.svg"
+    },
+    "book": {
+      "iconPath": "book.svg"
+    },
+    "rune": {
+      "iconPath": "rune.svg"
+    },
+    "test": {
+      "iconPath": "test.svg"
+    }
+  },
+  "file": "file",
+  "folder": "folder",
+  "folderExpanded": "folder",
+  "rootFolder": "rune",
+  "rootFolderExpanded": "rune",
+  "fileExtensions": {
+    "js": "code",
+    "ts": "code",
+    "tsx": "code",
+    "jsx": "code",
+    "py": "code",
+    "rs": "code",
+    "go": "code",
+    "html": "code",
+    "css": "code",
+    "json": "code",
+    "svg": "image",
+    "png": "image",
+    "jpg": "image",
+    "webp": "image",
+    "md": "book"
+  },
+  "fileNames": {
+    "package.json": "rune",
+    "LICENSE": "book"
+  },
+  "folderNames": {
+    "test": "test",
+    "tests": "test"
+  }
+}
